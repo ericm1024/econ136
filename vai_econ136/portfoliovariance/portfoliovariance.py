@@ -22,6 +22,8 @@ class Data:
         self.adjclose=adjclose
         self.dcgr=dcgr
         self.range=[date[0],date[-1]]
+        self.beta = np.std(dcgr)
+        self.alpha = np.mean(dcgr)
 
     def displayPrices(self):
         """Displays date and adjusted close"""
@@ -40,6 +42,8 @@ class Data:
     
     def displayAll(self):
         """Displays date, trading volume, and adjusted close"""
+        print "Alpha (trend) for past year:  " + str(self.alpha)
+        print "Beta (historical volatility) for past year:  " + str(self.beta)
         dcgr=np.hstack(([float('nan')],self.dcgr))
         print ["Date","Volume","Adj Close"]
         print np.vstack((self.date,self.volume,self.adjclose,dcgr)).T
@@ -48,6 +52,10 @@ class Data:
         """Displays Date Range for ticker"""
         print self.range
 
+    def displayBeta(self):
+        """Displays Date Range for ticker"""
+        print ["Alpha", "Beta"]
+        print [self.alpha, self.beta]
 
 def CompileMatrix(TickerDict):
     print "Current Tickers in system: ",list(TickerDict.iterkeys())
@@ -157,7 +165,8 @@ while True:
                 print "2) daily volume"
                 print "3) DCGRs"
                 print "4) Date Range"
-                print "5) all"
+                print "5) Alpha(trend)/Beta (historical volatility)"
+                print "6) all"
                 display=raw_input("pick a number: ")
                 if display=='1':
                     TickerDict[tick].displayPrices()
@@ -168,6 +177,8 @@ while True:
                 elif display=='4':
                     TickerDict[tick].displayDateRange()
                 elif display=='5':
+                    TickerDict[tick].displayBeta()
+                elif display=='6':
                     TickerDict[tick].displayAll()
                 else:
                     print "ERROR: Invalid Choice."

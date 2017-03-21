@@ -1,5 +1,5 @@
 import math
-# This is a Py version 2.7.9 file originally written and tested in Py3.4 
+# This is a Py version 2.7.9 file originally written and tested in Py3.4
 # This file show how to use the Py2 error function to calculate the
 # cumulative probability density function for both the standard normal
 # and normal distribution.

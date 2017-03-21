@@ -7,14 +7,14 @@
 import math
 import time
 from datetime import date
-stosym = "FB"
-exmonth = int(2)
-exday = int (3)
-stopr = float(131.97)
-strike = float(131.00)
-putBid = float(2.93)
-putAsk = float(2.96)
-rfir = float (0.0025)
+stosym = "CSCO"
+exmonth = int(2) # is not used
+exday = int (3) #is not used
+stopr = float(31.95) # current stock price
+strike = float(31.50) # strike price
+putBid = float(0.35)
+putAsk = float(0.36)
+rfir = float (0.0025) # risk-free interest rate
 #
 #  Initialize key variables below
 #
@@ -39,7 +39,9 @@ putpr = putBid + ((0.6)*spread)
 tnow = date.today()
 expiry = date(tnow.year, exmonth, exday)
 days2expiry = abs(expiry - tnow)
-days = int(days2expiry.days)
+#days = int(days2expiry.days)
+days =  5;
+
 #  This is how you calc the standard normal dist in Py for dval
 def csnd(dval):
 	return (1.0 + math.erf(dval/math.sqrt(2.0)))/2.0
@@ -64,23 +66,19 @@ cumd1 = csnd(-d1/durvol)
 cumd2 = csnd(-(d1/durvol - durvol))
 discount = math.exp(-rfir*days/365)
 newpp = -(stopr*cumd1)+(strike*discount*cumd2)
-timedecay = putpr - newpp	
+timedecay = putpr - newpp
 #
 print ""
 print "Date: ", tnow.strftime("%a %b %d %Y")
 print "PUT" , stosym , expiry.strftime("%b %d")
 print "Stock price: ", "%.3f" % stopr
 print "Strike price: ", "%.2f" % strike
-print "Days to expiry: ", days2expiry.days	
+print "Days to expiry: ", days2expiry.days
 print "Put ASK: ", "%.3f" % putAsk
 print "Put BID: ", "%.3f" % putBid
 print "Put price (PEG): ", "%.3f" % putpr
 print "The Delta:", "%.5f" % cumd1
 print "One day time decay:", "%.3f" % timedecay
-print "The put's implied probability: ", "%.5f" % pidv
+print "The put's implied volatility: ", "%.5f" % pidv
 
 #
-
-
-
-

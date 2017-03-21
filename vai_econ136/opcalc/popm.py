@@ -16,10 +16,10 @@ stosym = "JWN"
 # Temporary override for testing
 # exmonth = int(3)
 # exday = int (19)
-stopr = float(100.00)
-strike = float(105.00)
-dayvol = float(0.0200)
-rfir = float (0.010)
+stopr = float(31.95) # current stock price
+strike = float(32.50) # strike price
+dayvol = float(0.01037) # daily volatility
+rfir = float (0.0025) # risk-free interest rate
 #
 #  Initialize key variables below
 daystd = int(1)
@@ -38,7 +38,7 @@ callpr = float(0.0)
 # days2expiry = abs(expiry - tnow)
 # days = int(days2expiry.days)
 # This is the temp override below:
-days = int(20)
+days = int(4)
 #  This is how you calc the standard normal dist in Py for dval
 def csnd(dval):
 	return (1.0 + math.erf(dval/math.sqrt(2.0)))/2.0
@@ -50,7 +50,7 @@ durvol = dayvol*math.sqrt(days)
 cumd1 = csnd(-d1/durvol) #full d1
 cumd2 = csnd(-(d1/durvol) - durvol) # full d2
 discount = math.exp(-rfir*days/365)
-callpr = (stopr*cumd1)+(strike*discount*cumd2)
+callpr = -(stopr*cumd1)+(strike*discount*cumd2) # double check this
 #
 #	Below we calculate one day time decay using our new value for volatility
 #   Not done in this version.

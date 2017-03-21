@@ -45,12 +45,15 @@ def csnd(dval):
 #
 #   Below we calculate the call option price
 #
-d1 = math.log(stopr/strike)+((rfir/365)+(dayvol**2)/2)*days
+#
+#   Below we calculate the put option price
+#
+d1 = math.log(stopr/strike)+((rfir/365)+(dayvol**2)/2)*days # numerator of d1
 durvol = dayvol*math.sqrt(days)
-cumd1 = csnd(d1/durvol)
-cumd2 = csnd((d1/durvol) - durvol)
+cumd1 = csnd(-d1/durvol) #full d1
+cumd2 = csnd(-(d1/durvol) - durvol) # full d2
 discount = math.exp(-rfir*days/365)
-callpr = (stopr*cumd1)-(strike*discount*cumd2)
+callpr = -1*(stopr*cumd1)+(strike*discount*cumd2) # double check this
 #
 #	Below we calculate one day time decay using our new value for volatility
 #   Not done in this version.

@@ -7,14 +7,14 @@
 import math
 import time
 from datetime import date
-stosym = "FB"
-exmonth = int(2)
-exday = int (3)
-stopr = float(131.88)
-strike = float(133.00)
-callBid = float(2.81)
-callAsk = float(2.84)
-rfir = float (0.0025)
+stosym = "CSCO"
+exmonth = int(2) # is not used
+exday = int (3) #is not used
+stopr = float(31.95) # current stock price
+strike = float(32.50) # strike price
+callBid = float(0.32)
+callAsk = float(0.33)
+rfir = float (0.0025) # risk-free interest rate
 #
 #  Initialize key variables below
 daystd = int(1)
@@ -32,11 +32,16 @@ callpr = float(0.0)
 # Calculating strike value (PEG)
 spread = callAsk - callBid
 callpr = callBid + ((0.6)*spread)
+
 # Calculating days to expiry:
 tnow = date.today()
 expiry = date(tnow.year, exmonth, exday)
 days2expiry = abs(expiry - tnow)
-days = int(days2expiry.days)
+#days = int(days2expiry.days)
+
+#override days to expiry
+days = 4
+
 #  This is how you calc the standard normal dist in Py for dval
 def csnd(dval):
 	return (1.0 + math.erf(dval/math.sqrt(2.0)))/2.0
@@ -83,4 +88,4 @@ print "Call price (PEG): ", "%.3f" % callpr
 # print "tempcp:", "%.4f" % tempcp
 print "The Delta:", "%.4f" % cumd1
 print "One day time decay:", "%.3f" % timedecay
-print "The call's implied probability: ", "%.5f" % cipd
+print "The call's implied volatility: ", "%.5f" % cipd

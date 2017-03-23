@@ -110,8 +110,9 @@ for i in range(0,size):
 		aboveInd = i
 aboveInd += 1
 
-print "above index", aboveInd
+# print "above index", aboveInd
 
+## calculate the value of the PUT
 # sum all the indices above
 callVal = 0
 for i in range(aboveInd, size):
@@ -120,7 +121,21 @@ for i in range(aboveInd, size):
 # add the value of the partial
 callVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
 
+## calculate the value of ITM
+itmCallVal = 0
+for i in range(aboveInd, size):
+	itmCallVal += binvalue[i]
+
+# add the value of the partial
+itmCallVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1])
+
+## calculate the value of OTM
+otmCallVal = stp - itmCallVal
+
+## Print all values
 print "call value", callVal
+print "call ITM val", itmCallVal
+print "call OTM val", otmCallVal
 
 
 # calculate put option TODO
@@ -133,8 +148,9 @@ for i in range(0, size)[::-1]:
 		belowInd = i
 belowInd += 0
 
-print "below index", belowInd
+#print "below index", belowInd
 
+## calculate the value of the PUT
 # sum all the indices above
 putVal = 0
 for i in range(0, belowInd):
@@ -143,4 +159,20 @@ for i in range(0, belowInd):
 # add the value of the partial
 putVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
 
+## calculate the value of OTM
+otmPutVal = 0
+for i in range(aboveInd, size):
+	otmPutVal += binvalue[i]
+
+# add the value of the partial
+otmPutVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1])
+
+## calculate the value of OTM
+itmPutVal = stp - otmPutVal
+
 print "put value", putVal
+print "put ITM val", itmPutVal
+print "put OTM val", otmPutVal
+
+
+### for 6 & 7, don't subtract strike?

@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 # and volatility (sigma).
 #
 stp = float(80.0) # stock price
-strike = float(83.0) # strike price
+strike = float(84.0) # strike price
 days = float(1.0) # days until expiry
 alpha = float(0.00) # growth rate
 sigma = float(0.10) # daily volatility with respect to the mean
@@ -128,19 +128,19 @@ print
 print "Calculating Put Option"
 # find bin number
 belowInd = 0;
-for i in range(0,size):
-	if binprice[i] <= strike:
+for i in range(0, size)[::-1]:
+	if binprice[i] >= strike:
 		belowInd = i
-aboveInd += 1
+belowInd += 0
 
-print "above index", aboveInd
+print "below index", belowInd
 
 # sum all the indices above
-callVal = 0
-for i in range(aboveInd, size):
-	callVal += binvalue[i]-strike*binprob[i]
+putVal = 0
+for i in range(0, belowInd):
+	putVal += strike*binprob[i]-binvalue[i]
 
 # add the value of the partial
-callVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
+putVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
 
-print "call value", callVal
+print "put value", putVal

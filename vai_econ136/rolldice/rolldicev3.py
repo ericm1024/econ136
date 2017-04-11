@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 # Establish the testing values of our stock price (stp), strike price (strike), drift (alpha)
 # and volatility (sigma).
 #
-stp = float(80.0) # stock price
-strike = float(84.0) # strike price
-days = float(1.0) # days until expiry
-alpha = float(0.00) # growth rate
-sigma = float(0.10) # daily volatility with respect to the mean
+stp = float(206.32) # stock price
+strike = float(208.0) # strike price
+days = float(23.0) # days until expiry
+alpha = float(0.00057) # growth rate
+sigma = float(0.00451) # daily volatility with respect to the mean
 #
 # Normally we would call our SN cumulative density function from our library, but it is written
 # here so others can see what we are doing. We are using the version that draws upon the Gaussian
@@ -58,7 +58,8 @@ print "Sigma after duration adjustment: ", sigma
 # The centered-on-zero load array is appropriate (although it doesn't really matter).
 # Assuming symmetry, the binnumbers (num) will equal 2 X abs(deviation) X # of intervals + 1 e.g.(4.25*2*2+1)= 18
 #
-binborder = np.linspace(-4.25, 4.25, num=18, dtype=float) #STEP 1
+binsize = 400;
+binborder = np.linspace(-4.25, 4.25, num=binsize, dtype=float) #STEP 1
 size = len(binborder)
 print "Number of bins:", size - 1
 #
@@ -115,12 +116,13 @@ aboveInd += 1
 ## calculate the value of the PUT
 # sum all the indices above
 callVal = 0
+callProb = 0
 for i in range(aboveInd, size):
 	callVal += binvalue[i]-strike*binprob[i]
-
+	callProb += binprob[i]
 # add the value of the partial
 callVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
-
+callProb += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binprob[aboveInd-1])
 ## calculate the value of ITM
 itmCallVal = 0
 for i in range(aboveInd, size):
@@ -132,10 +134,13 @@ itmCallVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[above
 ## calculate the value of OTM
 otmCallVal = stp - itmCallVal
 
+print "Interp", (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])
+
 ## Print all values
 print "call value", callVal
 print "call ITM val", itmCallVal
 print "call OTM val", otmCallVal
+print "Probability ITM", callProb
 
 
 # calculate put option TODO
@@ -153,11 +158,14 @@ belowInd += 0
 ## calculate the value of the PUT
 # sum all the indices above
 putVal = 0
+putProb = 0;
 for i in range(0, belowInd):
 	putVal += strike*binprob[i]-binvalue[i]
+	putProb += binprob[i]
 
 # add the value of the partial
 putVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*(binvalue[aboveInd-1]-(strike*binprob[aboveInd-1]))
+putProb += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])*binprob[aboveInd-1]
 
 ## calculate the value of OTM
 otmPutVal = 0
@@ -173,6 +181,10 @@ itmPutVal = stp - otmPutVal
 print "put value", putVal
 print "put ITM val", itmPutVal
 print "put OTM val", otmPutVal
+print "put ITM prob", 1-callProb#putProb
 
 
 ### for 6 & 7, don't subtract strike?
+
+
+

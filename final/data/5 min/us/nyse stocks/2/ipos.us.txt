@@ -1,0 +1,2 @@
+Date,Time,Open,High,Low,Close,Volume,OpenInt
+2017-04-24,19:20:00,20.1815,20.1815,20.1815,20.1815,100,0

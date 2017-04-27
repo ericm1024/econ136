@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 # Establish the testing values of our stock price (stp), strike price (strike), drift (alpha)
 # and volatility (sigma).
 #
-stp = float(206.32) # stock price
-strike = float(208.0) # strike price
-days = float(23.0) # days until expiry
-alpha = float(0.00057) # growth rate
-sigma = float(0.00451) # daily volatility with respect to the mean
+stp = float(143.71) # stock price
+strike = float(144.0) # strike price
+days = float(38.0) # days until expiry
+alpha = float(0.00) # growth rate
+sigma = float(0.02355) # daily volatility with respect to the mean
 #
 # Normally we would call our SN cumulative density function from our library, but it is written
 # here so others can see what we are doing. We are using the version that draws upon the Gaussian
@@ -134,7 +134,7 @@ itmCallVal += (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[above
 ## calculate the value of OTM
 otmCallVal = stp - itmCallVal
 
-print "Interp", (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])
+#print "Interp", (binprice[aboveInd] - strike)/(binprice[aboveInd] - binprice[aboveInd-1])
 
 ## Print all values
 print "call value", callVal
@@ -181,10 +181,6 @@ itmPutVal = stp - otmPutVal
 print "put value", putVal
 print "put ITM val", itmPutVal
 print "put OTM val", otmPutVal
-print "put ITM prob", 1-callProb#putProb
-
+print "Probability ITM put", 1-callProb#putPro
 
 ### for 6 & 7, don't subtract strike?
-
-
-

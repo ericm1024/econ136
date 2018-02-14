@@ -13,10 +13,10 @@ from datetime import date
 stosym = "CSCO"
 exmonth = int(2)
 exday = int(17)
-stopr = float(31.56)
-strike = float(32.0)
-callBid = float(0.36)
-callAsk = float(0.37)
+stopr = float(31.95)
+strike = float(32.5)
+callBid = float(0.32)
+callAsk = float(0.33)
 rfir = float(0.0025) # risk free interest rate
 
 #  Initialize key variables below
@@ -36,7 +36,8 @@ callpr = float(0.0)
 spread = callAsk - callBid
 callpr = callBid + ((0.6)*spread)
 # Calculating days to expiry:
-tnow = date.today()
+#tnow = date.today()
+tnow = date(2017, 2, 13)
 expiry = date(tnow.year, exmonth, exday)
 days2expiry = abs(expiry - tnow)
 days = int(days2expiry.days)
